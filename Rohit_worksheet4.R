@@ -18,7 +18,7 @@ plot(crop.dog)
 col.dog.green <- as.cimg(col.mat[,,2])
 plot(col.dog.green)
 
-##problem 1 (purest green)
+##problem 1 (purest green) 
 
 pixel.purest.green <- sqrt((col.mat[,,1])^2 + (col.mat[,,2] - 1)^2 + (col.mat[,,3])^2)
 
@@ -28,6 +28,14 @@ ind.green
 plot(dog)
 points(x = ind.green[,1], y = ind.green[,2], col = "red",pch = 19, cex = 1)
 
+
+dist <- matrix(0,dim(col.mat)[1],dim(col.mat)[2])
+for (i in 1:dim(col.mat)[1]){
+  for (j in 1:dim(col.mat)[2]) {
+    dist[i,j] <- norm(col.mat[i,j,]-c(0,1,0), "2")
+  }
+}
+which(dist == min(dist),arr.ind = TRUE)
 
 ##problem 2 (purest red)
 
@@ -96,7 +104,7 @@ snow.predict <- function(m){
   ifelse(mean(distance.white.mat) < 0.57,return("The picture has a lot of snow"),return("The picture has not that much snow"))
 
   }
-snow.predict("land1.jpeg")
+snow.predict("land2.jpeg")
 
 
 ## alternative
@@ -109,7 +117,7 @@ snow.predict1 <- function(m){
   
   dimension.mat <- dim(col.mat.snow)
   
-  a <- length(distance.white.mat[which(distance.white.mat < 0.51)])/(dimension.mat[1]*dimension.mat[2])
+  a <- length(distance.white.mat[which(distance.white.mat < 0.6)])/(dimension.mat[1]*dimension.mat[2])
   #ifelse(a > 0.50,return("The picture has lot of snow"),return("Picture does not have lot of snow"))
   return(a)
 }

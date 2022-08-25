@@ -204,3 +204,57 @@ MontyHall()
 mean(replicate(1000,MontyHall()))
 
 
+## problem 8
+rm(list = ls())
+library(rvest)
+library(stringr)
+html <- read_html("https://editorial.rottentomatoes.com/guide/best-netflix-movies-to-watch-right-now/")
+
+movie.names <-  html %>% html_elements(".article_movie_title a") %>% html_text()
+
+
+Tomato_score <- html %>% html_elements(".article_movie_title .tMeterScore") %>% html_text()
+
+
+
+movie.year <- html %>% html_elements(".article_movie_title .subtle") %>% html_text()
+movie.year <- as.numeric(str_sub(movie.year,2,-2))
+
+final.netflix <- data.frame(Ranking = 100:1, Movie_Name = movie.names, Tomato_Score = Tomato_score, Year = movie.year)
+View(final.netflix)
+
+
+
+
+## problem 9
+rm(list = ls())
+library(rvest)
+library(stringr)
+
+html <- read_html("https://en.wikipedia.org/wiki/United_States_at_the_Olympics")
+
+all.medals <- html %>% html_table()
+View(rbind(all.medals[[4]][2:31,1:8],replace(all.medals[[4]][35,1:8],2,"*")))
+
+
+## problem 10
+rm(list = ls())
+library(rvest)
+library(stringr)
+
+html <- read_html("https://stats.stackexchange.com/questions?tab=Votes")
+
+questions <- html %>% html_elements(".s-post-summary--content-title a") %>% html_text()
+
+views <- as.numeric(substring(html %>% html_elements(".is-supernova") %>% html_attr("title"), 1, 6))
+
+
+votes.ans <- html %>% html_elements(".s-post-summary--stats-item-number") %>% html_text()
+
+only.votes <- as.numeric(votes.ans[seq(1,43,3)])
+
+only.ans <- as.numeric(votes.ans[seq(2,44,3)])
+
+final_frame <- data.frame(Question.titles = questions, No.of.views = views, No.of.ans = only.ans, No.of.votes = only.votes)
+
+View(final_frame)

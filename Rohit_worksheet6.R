@@ -35,11 +35,7 @@ movies.votes
 data.frame(movie.name,movie.year,movie.rating,movies.votes)
 
 
-
-
-
 nam <- html2 %>% html_elements(".posterColumn span") %>% html_attr("name")
 ind = which(nam == "nv")
 nam1 <- html2 %>% html_elements(".posterColumn span") %>% html_attr("data-value")
 as.numeric(nam1[ind])
-
